@@ -1,10 +1,5 @@
 ####################
 #	1/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 # This Python 3 environment comes with many helpful analytics libraries installed
@@ -29,16 +24,10 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 
 ####################
 #	2/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 import gc
 import torch
-import copy
 from datasets import Dataset
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments,DataCollatorWithPadding
 import nltk
@@ -53,27 +42,16 @@ import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
 from scipy.special import softmax
-from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
-from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, AdaBoostClassifier,GradientBoostingClassifier,BaggingClassifier
-from sklearn.linear_model import LogisticRegression, Perceptron
-from sklearn.svm import LinearSVC
-from sklearn.naive_bayes import GaussianNB,MultinomialNB,ComplementNB
-from sklearn.neural_network import MLPClassifier
-from sklearn import tree
-from sklearn.neighbors import KNeighborsClassifier
+
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
-from sklearn.pipeline import Pipeline
-from imblearn.ensemble import BalancedBaggingClassifier
-from sklearn.feature_selection import SelectFromModel
-from sklearn.datasets import make_classification
+
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-from sklearn.model_selection import train_test_split, StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, f1_score
 from sklearn.metrics import cohen_kappa_score
 from lightgbm import log_evaluation, early_stopping
 import lightgbm as lgb
 nltk.download('wordnet')
-
 
 
 ####################
