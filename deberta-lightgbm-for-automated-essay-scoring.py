@@ -124,12 +124,9 @@ for model in models:
 
 ####################
 #	4/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
+
+# 平均してアンサンブルをしている
 
 predicted_score = 0.
 for p in predictions:
@@ -141,11 +138,6 @@ predicted_score /= len(predictions)
 
 ####################
 #	5/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 df_test['score'] = predicted_score.argmax(-1) + 1
@@ -155,11 +147,6 @@ df_test.head()
 
 ####################
 #	6/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 columns = [  
@@ -178,11 +165,6 @@ train.head(1)
 
 ####################
 #	7/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 cList = {
@@ -230,12 +212,9 @@ def dataPreprocessing(x):
 
 ####################
 #	8/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
+
+# [spaCy 101: Everything you need to know · spaCy Usage Documentation](https://spacy.io/usage/spacy-101)
 
 import spacy
 import re
@@ -255,11 +234,6 @@ def count_spelling_errors(text):
 
 ####################
 #	9/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 import string
@@ -274,22 +248,20 @@ def remove_punctuation(text):
     - str: The text with punctuation removed.
     """
 
-    translator = str.maketrans('', '', string.punctuation)
+    # delete z
+    # each x -> y
+    translator = str.maketrans(x = '', y = '', z = string.punctuation)
     return text.translate(translator)
 
 
 
 ####################
 #	10/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 def Paragraph_Preprocess(tmp):
 
+    # [polars.Expr.explode — Polars documentation](https://docs.pola.rs/api/python/stable/reference/expressions/api/polars.Expr.explode.html)
     tmp = tmp.explode('paragraph')
     tmp = tmp.with_columns(pl.col('paragraph').map_elements(dataPreprocessing))
     tmp = tmp.with_columns(pl.col('paragraph').map_elements(remove_punctuation).alias('paragraph_no_pinctuation'))
@@ -333,11 +305,6 @@ train_feats.head(3)
 
 ####################
 #	11/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 def Sentence_Preprocess(tmp):
@@ -379,11 +346,6 @@ train_feats.head(3)
 
 ####################
 #	12/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 # word feature
@@ -420,11 +382,6 @@ train_feats.head(3)
 
 ####################
 #	13/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 vectorizer = TfidfVectorizer(
@@ -439,6 +396,8 @@ vectorizer = TfidfVectorizer(
             sublinear_tf=True,
 )
 
+# Check Example in the following document.
+# [TfidfVectorizer — scikit-learn 1.5.2 documentation](https://scikit-learn.org/1.5/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html)
 train_tfid = vectorizer.fit_transform([i for i in train['full_text']])
 dense_matrix = train_tfid.toarray()
 df = pd.DataFrame(dense_matrix)
@@ -454,11 +413,6 @@ train_feats.head(3)
 
 ####################
 #	14/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 vectorizer_cnt = CountVectorizer(
@@ -483,13 +437,9 @@ train_feats = train_feats.merge(df, on='essay_id', how='left')
 
 ####################
 #	15/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
+# [Joblib: running Python functions as pipeline jobs — joblib 1.4.2 documentation](https://joblib.readthedocs.io/en/stable/)
 import joblib
 
 deberta_oof = joblib.load('/kaggle/input/aes2-400-20240419134941/oof.pkl')
@@ -507,18 +457,15 @@ train_feats.shape
 
 ####################
 #	16/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
+# [cohen_kappa_score — scikit-learn 1.5.2 documentation](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.cohen_kappa_score.html)
 def quadratic_weighted_kappa(y_true, y_pred):
     y_true = y_true + a
     y_pred = (y_pred + a).clip(1, 6).round()
     qwk = cohen_kappa_score(y_true, y_pred, weights="quadratic")
     return 'QWK', qwk, True
+
 def qwk_obj(y_true, y_pred):
     labels = y_true + a
     preds = y_pred + a
@@ -733,156 +680,3 @@ submission['score']=submission['score'].astype(int)
 submission.to_csv("submission.csv",index=None)
 display(submission.head())
 
-
-
-####################
-#	23/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	24/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	25/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	26/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	27/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	28/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	29/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	30/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	31/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	32/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	33/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
-
-
-
-
-
-####################
-#	34/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
-####################
