@@ -56,20 +56,22 @@ nltk.download('wordnet')
 
 ####################
 #	3/34
-# date_reading: 
-# thought: 
-# words: 
-# reference: 
-
 ####################
 
 MAX_LENGTH = 1024
 TEST_DATA_PATH = "/kaggle/input/learning-agency-lab-automated-essay-scoring-2/test.csv"
 import pandas as pd
+
+# [Datasets](https://huggingface.co/docs/datasets/index)
 from datasets import Dataset
+
+# https://huggingface.co/docs/transformers/ja/model_doc/auto#transformers.AutoModelForSequenceClassification
+# [Trainer](https://huggingface.co/docs/transformers/ja/main_classes/trainer)
+# https://huggingface.co/docs/transformers/v4.46.0/ja/main_classes/trainer#transformers.TrainingArguments
+# [Data Collator](https://huggingface.co/docs/transformers/main_classes/data_collator#transformers.DataCollatorWithPadding)
 from transformers import (
     AutoTokenizer,
-    AutoModelForSequenceClassification,
+    AutoModelForSequenceClassification, # テキスト分類のタスクを行うためのモデル
     TrainingArguments,
     Trainer,
     DataCollatorWithPadding,
